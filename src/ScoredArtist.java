@@ -20,15 +20,15 @@ public class ScoredArtist implements Scored {
         return name;
     }
 
-    public List<ScoredAlbum> getAlbums() {
+    List<ScoredAlbum> getAlbums() {
         albums.sort(ScoredTools.comparator);
         return Collections.unmodifiableList(albums);
     }
 
     public double getScore() {
-
         double sum = 0;
         for (ScoredAlbum a : albums) {
+            if(a.isInvalidAlbum()) continue;
             sum += a.getScore();
         }
         if (ScoredTools.option == ScoredTools.ScoringMethods.AVERAGE) {

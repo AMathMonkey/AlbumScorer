@@ -1,4 +1,5 @@
 public interface Scored {
-    public double getScore();
-    public String getName();
+    double getScore();
+
+    String getName();
 }

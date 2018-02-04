@@ -2,7 +2,7 @@ public class ScoredTrack implements Scored {
     private String name;
     private int rating;
 
-    public ScoredTrack(String title, int rating) {
+    ScoredTrack(String title, int rating) {
         name = title;
         this.rating = rating;
     }
@@ -44,7 +44,7 @@ public class ScoredTrack implements Scored {
         return name;
     }
 
-    public int getRating() {
+    int getRating() {
         return rating;
     }
 

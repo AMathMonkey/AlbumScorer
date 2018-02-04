@@ -24,7 +24,11 @@ public class Main {
             if (trackString.equals("")) continue;
             String artistString = record.get("Artist");
             String albumString = record.get("Album");
-            int rating = Integer.parseInt(record.get("Rating"));
+            int rating = 0;
+            try {
+                rating = Integer.parseInt(record.get("Rating"));
+            } catch (NumberFormatException ignored) {
+            }
 
             foundFlag = false;
             if (artistString.equals("")) {
@@ -60,7 +64,6 @@ public class Main {
 
             ScoredTrack trackPointer = new ScoredTrack(trackString, rating);
             albumPointer.addTrack(trackPointer);
-
             artistPointer.addAlbum(albumPointer);
             artists.add(artistPointer);
             prevArtistPointer = artistPointer;
@@ -69,27 +72,43 @@ public class Main {
         }
 
         for (ScoredArtist a : artists) {
-            System.out.println(a.getName() + ":");
+            boolean foundEP = false;
+            System.out.println(a.getName() + " Albums:");
             int i = 1;
             for (ScoredAlbum al : a.getAlbums()) {
+                if(al.isInvalidAlbum()) continue;
+                if (al.isEP()) {
+                    foundEP = true;
+                    continue;
+                }
                 System.out.print("\t" + i + ") " + al.getName() + ": ");
                 System.out.println(ScoredTools.format(al.getScore()));
                 i++;
             }
-
+            if (foundEP) {
+                System.out.println("\n\n" + a.getName() + " EPs:");
+                i = 1;
+                for (ScoredAlbum al : a.getAlbums()) {
+                    if(al.isInvalidAlbum()) continue;
+                    if (!al.isEP()) continue;
+                    System.out.print("\t" + i + ") " + al.getName() + ": ");
+                    System.out.println(ScoredTools.format(al.getScore()));
+                    i++;
+                }
+            }
             System.out.println(a.getName() + "'s final score: " + ScoredTools.format(a.getScore()) + '\n');
         }
         for (ScoredArtist a : artists) {
-            System.out.println("\n\t\t" + a.getName() + "'s Best Tracks:");
+            System.out.println("\n" + a.getName() + "'s 5-Star Tracks:");
             for (ScoredAlbum al : a.getAlbums()) {
                 for (ScoredTrack t : al.getBestTracks()) {
-                    System.out.println("\t\t" + t.getName());
+                    System.out.println("\t\t" + t.getName() + "\t\t from " + al.getName());
                 }
             }
-            System.out.println("\n\t\t" + a.getName() + "'s Worst Tracks:");
+            System.out.println("\n" + a.getName() + "'s 1-Star Tracks:");
             for (ScoredAlbum al : a.getAlbums()) {
                 for (ScoredTrack t : al.getWorstTracks()) {
-                    System.out.println("\t\t" + t.getName());
+                    System.out.println("\t\t" + t.getName() + "\t\t from " + al.getName());
                 }
             }
         }
