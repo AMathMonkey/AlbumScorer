@@ -102,13 +102,13 @@ public class Main {
             System.out.println("\n" + a.getName() + "'s 5-Star Tracks:");
             for (ScoredAlbum al : a.getAlbums()) {
                 for (ScoredTrack t : al.getBestTracks()) {
-                    System.out.println("\t\t" + t.getName() + "\t\t from " + al.getName());
+                    System.out.printf("%-40s%s%n", "\t" + t.getName(), "from " + al.getName());
                 }
             }
             System.out.println("\n" + a.getName() + "'s 1-Star Tracks:");
             for (ScoredAlbum al : a.getAlbums()) {
                 for (ScoredTrack t : al.getWorstTracks()) {
-                    System.out.println("\t\t" + t.getName() + "\t\t from " + al.getName());
+                    System.out.printf("%-40s%s%n", "\t" + t.getName(), "from " + al.getName());
                 }
             }
         }

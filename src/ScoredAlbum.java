@@ -14,7 +14,10 @@ public class ScoredAlbum implements Scored {
         name = title;
         this.tracks = new ArrayList<>();
         this.tracks.addAll(Arrays.asList(tracks));
-        isEP = name.contains("(EP)");
+        if(name.contains(" (EP)")){
+            name = name.replace(" (EP)", "");
+            isEP = true;
+        }
     }
 
     void addTrack(ScoredTrack track) {
